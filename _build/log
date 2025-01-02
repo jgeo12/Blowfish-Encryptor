@@ -1,0 +1,6 @@
+# dune init project Encryptor
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Shared cache location: /home/joshuajg/.cache/dune/db
+# Workspace root: /home/joshuajg/MyProjects/Encryptor
+# Auto-detected concurrency: 20
