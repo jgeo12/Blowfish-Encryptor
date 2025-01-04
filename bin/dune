@@ -1,4 +1,4 @@
 (executable
  (public_name Encryptor)
  (name main)
- (libraries Encryptor))
+ (libraries Encryptor batteries))

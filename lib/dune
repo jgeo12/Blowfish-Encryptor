@@ -1,2 +1,4 @@
 (library
- (name Encryptor))
+ (name Encryptor)
+  (libraries csv)
+  (modules blowfish util))
