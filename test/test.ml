@@ -141,7 +141,7 @@ let encrypt_decrypt_test1 _ =
    message.*)
 let encrypt_decrypt_test2 _ =
   let key = 27778902 in
-  let message = "cow . ho" in
+  let message = "cow . h8" in
   let encrypted = encrypt message key in
   let decrypted = decrypt encrypted key in
   assert_equal decrypted message
@@ -288,11 +288,11 @@ let invalid_message_test3 _ =
 let invalid_message_test4 _ =
   let key = 25685625 in
   try
-    let _ = encrypt "           " key in
+    let _ = encrypt "            " key in
     assert_failure "Expected failure."
   with Failure _ -> ()
 
-(**[tests] is a factory for creating tests*)
+(**[tests] is a factory for test cases.*)
 let tests =
   "test suite"
   >::: [

@@ -8,7 +8,7 @@ let s_box_3 = csv_to_array (base_data_dir ^ "s3_box.csv")
 let s_box_4 = csv_to_array (base_data_dir ^ "s4_box.csv")
 
 (**[init_p_array key] is the p-array after the 8-digit [key] is encoded into the
-   p-array via xor.*)
+   p-array via xor operations.*)
 let init_p_array key =
   let key_string = Printf.sprintf "%08d" key in
   let key_as_binary = string_to_binary key_string in
@@ -86,17 +86,13 @@ let encrypt message key =
    then xors p2 and p1 seperately at the end.*)
 let decrypt ciphertext_str key =
   try
-    let ciphertext = binary_string_to_list ciphertext_str in
     let local_p_array = init_p_array key in
-    let padding_length_binary =
-      sub (List.length ciphertext - 8) (List.length ciphertext) ciphertext
-    in
+    let ciphertext = binary_string_to_list ciphertext_str in
+    let padding_length_binary = sub 64 96 ciphertext in
     let padding_length = binary_to_int padding_length_binary in
-    let ciphertext_without_padding =
-      sub 0 (List.length ciphertext - 8) ciphertext
-    in
-    let xl = sub 0 32 ciphertext_without_padding in
-    let xr = sub 32 64 ciphertext_without_padding in
+    let ciphertext_without_padding_int = sub 0 64 ciphertext in
+    let xl = sub 0 32 ciphertext_without_padding_int in
+    let xr = sub 32 64 ciphertext_without_padding_int in
     let rec feistel_rounds xl xr round =
       if round < 3 then (xl, xr)
       else
@@ -109,6 +105,6 @@ let decrypt ciphertext_str key =
     let xr = xor xr (int_to_binary local_p_array.(1)) in
     let xl = xor xl (int_to_binary local_p_array.(0)) in
     let value = xl @ xr in
-    let unpadded_binary = sub 0 (List.length value - padding_length) value in
+    let unpadded_binary = sub 0 (64 - padding_length) value in
     binary_to_string unpadded_binary
   with _ -> failwith "Error occurred during decryption."
