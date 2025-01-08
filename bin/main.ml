@@ -14,11 +14,9 @@ let encrypt_file filename key =
         split_into_chunks rest (chunk :: acc)
     in
     let message_chunks = split_into_chunks content [] in
-    print_endline (String.concat "," message_chunks);
     let encrypted_chunks =
       List.map (fun chunk -> encrypt chunk key) message_chunks
     in
-    print_endline (String.concat "," encrypted_chunks);
     let encrypted_message = String.concat "" encrypted_chunks in
     let encrypted_filename = filename ^ ".enc" in
     BatFile.with_file_out encrypted_filename (fun out ->
